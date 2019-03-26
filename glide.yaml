@@ -4,6 +4,4 @@ excludeDirs:
 import:
 - package: github.com/fsouza/go-dockerclient
 - package: github.com/gorilla/mux
-- package: golang.org/x/net
-  subpackages:
-  - websocket
+- package: github.com/gorilla/websocket
