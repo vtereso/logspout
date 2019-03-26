@@ -15,7 +15,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/gliderlabs/logspout/router"
+	"github.com/vtereso/logspout/router"
 )
 
 const defaultRetryCount = 10

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/gliderlabs/logspout/router"
+	"github.com/vtereso/logspout/router"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )

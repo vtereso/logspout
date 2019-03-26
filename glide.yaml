@@ -1,4 +1,4 @@
-package: github.com/gliderlabs/logspout
+package: github.com/vtereso/logspout
 excludeDirs:
 - custom
 import:

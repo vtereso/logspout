@@ -7,7 +7,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/gliderlabs/logspout/router"
+	"github.com/vtereso/logspout/router"
 )
 
 // Version is the running version of logspout
