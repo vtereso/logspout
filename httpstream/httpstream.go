@@ -10,7 +10,7 @@ import (
 
 	"github.com/gliderlabs/logspout/router"
 	"github.com/gorilla/mux"
-	"golang.org/x/net/websocket"
+	"github.com/gorilla/websocket"
 )
 
 func init() {
@@ -101,18 +101,21 @@ func normalName(name string) string {
 }
 
 func websocketStreamer(w http.ResponseWriter, req *http.Request, logstream chan *router.Message, closer chan bool) {
-	websocket.Handler(func(conn *websocket.Conn) {
-		for logline := range logstream {
-			if req.URL.Query().Get("source") != "" && logline.Source != req.URL.Query().Get("source") {
-				continue
-			}
-			_, err := conn.Write(append(marshal(logline), '\n'))
-			if err != nil {
-				closer <- true
-				return
-			}
+	var upgrader = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 4096,
+	}
+	conn, err := upgrader.Upgrade(w, req, nil)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	for logline := range logstream {
+		if err := conn.WriteMessage(websocket.TextMessage,append(marshal(logline), '\n')); err != nil {
+			closer <- true
+			return
 		}
-	}).ServeHTTP(w, req)
+	}
 }
 
 func httpStreamer(w http.ResponseWriter, req *http.Request, logstream chan *router.Message, multi bool) {
